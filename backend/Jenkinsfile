@@ -1,14 +1,7 @@
 // Déclaration du pipeline Jenkins
 pipeline {
     // Exécute le pipeline sur n'importe quel agent
-    //agent any
-    agent {
-        docker {
-            image 'docker:24.0.0'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
-
+    agent any
     // Déclarer les variables d'environnement globales
     environment {
         DOCKER_USERNAME     = "massire1"                        // votre username Docker Hub
