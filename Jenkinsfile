@@ -2,19 +2,19 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USERNAME    = "massire1"
-        DOCKER_CREDENTIALS = credentials("my-docker-cred-id")
+        DOCKER_USERNAME    = 'massire1'
+        DOCKER_CREDENTIALS = credentials('my-docker-cred-id')
         IMAGE_VERSION      = "1.${BUILD_NUMBER}"
     }
 
     stages {
-        stage("Checkout") {
+        stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/massire1/testCICD.git'
             }
         }
 
-        stage("Build and Push Images") {
+        stage('Build and Push Images') {
             steps {
                 script {
                     dir("${WORKSPACE}") {
@@ -31,12 +31,12 @@ pipeline {
             }
         }
 
-        stage("Deploy with Docker Compose") {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
                     dir("${WORKSPACE}") {
-                        sh "docker-compose down"
-                        sh "docker-compose up -d"
+                        sh 'docker-compose down'
+                        sh 'docker-compose up -d'
                     }
                 }
             }
