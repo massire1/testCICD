@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/massire1/testCICD.git'
+                git branch: 'compose', url: 'https://github.com/massire1/testCICD.git'
             }
         }
 
@@ -35,8 +35,8 @@ pipeline {
             steps {
                 script {
                     dir("${WORKSPACE}") {
-                        sh 'pwd'
-                        sh 'ls -la'
+                        //sh 'pwd'
+                        //sh 'ls -la'
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
                     }
