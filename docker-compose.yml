@@ -1,18 +1,18 @@
-version: "3.8"
+version: '3.8'
+
 services:
   backend:
-    image: tonuser/mon-backend:latest
+    build:
+      context: ./backend
+    container_name: backend-service
     ports:
       - "5001:5001"
-    networks:
-      - webnet
+    depends_on:
+      - frontend
 
   frontend:
-    image: tonuser/mon-frontend:latest
+    build:
+      context: ./frontend
+    container_name: frontend-service
     ports:
-      - "80:80"
-    networks:
-      - webnet
-
-networks:
-  webnet:
+      - "8081:80"
