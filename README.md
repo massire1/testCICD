@@ -56,6 +56,9 @@ python app.py
 
 ### Commandes Frontend
 ```bash
+cd frontend
 python -m http.server 8000
 ```
+### Accès à l'application
+- Taper sur le navigateur `http://localhost:8000/`
 
