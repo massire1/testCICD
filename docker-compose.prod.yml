@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   backend:
-    image: massire1/testcicd-backend:latest
+    image: testcicd2-compose-backend:latest
     ports:
       - "5001:5001"
 
   frontend:
-    image: massire1/testcicd-frontend:latest
+    image: testcicd2-compose-frontend:latest
     ports:
       - "8081:80"
