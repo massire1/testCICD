@@ -1,34 +1,57 @@
+// Déclaration du pipeline Jenkins
 pipeline {
+    // Exécute le pipeline sur n'importe quel agent
     agent any
+    // Déclarer les variables d'environnement globales
     environment {
-        DOCKER_IMAGE = "tonuser/mon-frontend"
-        REGISTRY_CREDENTIALS = 'dockerhub-creds'
+        DOCKER_USERNAME     = "massire1"                        // votre username Docker Hub
+        IMAGE_VERSION       = "1.${BUILD_NUMBER}"                // version dynamique de l’image
+        DOCKER_IMAGE        = "${DOCKER_USERNAME}/testcicd-frontend:${IMAGE_VERSION}" // nom de l’image docker
+        DOCKER_CONTAINER    = "test-ci-cd-front-${BUILD_NUMBER}"               // nom du conteneur
+        DOCKER_CREDENTIALS  = credentials("my-docker-cred-id") // identifiants Docker Hub
     }
+    // Les étapes du pipeline
     stages {
-        stage('Checkout') {
+        // Étape 1 : Récupération du code source depuis GitHub
+        stage("Checkout") {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/massire1/testCICD.git'
             }
         }
-        stage('Build Docker Image') {
+        // Étape 2 : Exécution des tests
+        stage("Test") {
+            steps {
+                echo "Tests en cours"
+            }
+        }
+        // Étape 3 : Création de l'image Docker
+        stage("Build Docker Image") {
             steps {
                 script {
-                    dockerImage = docker.build(DOCKER_IMAGE)
+                    sh "docker build -t $DOCKER_IMAGE ./frontend"
                 }
             }
         }
-        stage('Push to Docker Hub') {
+        // Étape 4 : Publication de l'image sur Docker Hub
+        stage("Push image to Docker Hub") {
             steps {
                 script {
-                    docker.withRegistry('', REGISTRY_CREDENTIALS) {
-                        dockerImage.push('latest')
-                    }
+                    sh """
+                    docker login -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}
+                    echo 'Docker login successful'
+                    docker push $DOCKER_IMAGE
+                    """
                 }
             }
         }
-        stage('Deploy') {
+        // Étape 5 : Déploiement de l'application
+        stage("Deploy") {
             steps {
-                sh 'ssh user@server "cd /chemin/deploiement && docker-compose pull && docker-compose up -d"'
+                script {
+                    sh """
+                    docker run -d --name $DOCKER_CONTAINER -p 8081:80 $DOCKER_IMAGE
+                    """
+                }
             }
         }
     }
