@@ -35,6 +35,8 @@ pipeline {
             steps {
                 script {
                     dir("${WORKSPACE}") {
+                        sh 'pwd'
+                        sh 'ls -la'
                         sh 'docker-compose down'
                         sh 'docker-compose up -d'
                     }
