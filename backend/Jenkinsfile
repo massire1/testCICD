@@ -6,7 +6,7 @@ pipeline {
     environment {
         DOCKER_USERNAME     = "massire1"                        // votre username Docker Hub
         IMAGE_VERSION       = "1.${BUILD_NUMBER}"                // version dynamique de l’image
-        DOCKER_IMAGE        = "${DOCKER_USERNAME}/testcicd-frontend:${IMAGE_VERSION}" // nom de l’image docker
+        DOCKER_IMAGE        = "${DOCKER_USERNAME}/testcicd-backend:${IMAGE_VERSION}" // nom de l’image docker
         DOCKER_CONTAINER    = "test-ci-cd-back-${BUILD_NUMBER}"               // nom du conteneur
         DOCKER_CREDENTIALS  = credentials("my-docker-cred-id") // identifiants Docker Hub
     }
