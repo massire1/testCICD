@@ -11,7 +11,7 @@ Le projet peut être exécuté dans **trois environnements** :
 
 ---
 
-## 1. Exécution en Production (avec Docker )
+## 1. Exécution en Production (avec Docker)
 
 ### Pré-requis
 - Docker et Docker Compose installés sur la machine cible
